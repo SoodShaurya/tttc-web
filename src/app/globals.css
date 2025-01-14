@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: #ece5dd;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
@@ -16,38 +16,414 @@
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
+    --accent: #6e7b99;
     --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
+    --border-color: #92a8d1; /* Light blue border */
     --radius: 0.3rem;
-  }
-
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --text-muted-color: #6b7280;
+    --content-bg-color: #f5f5f5; /* Content background */
+    --border-width: calc(24px);
+    --font-size-header-small: clamp(10px, .7vw,12px);
     --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    
+}
+
+.dark {
+  --background: #000000;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 240 5.9% 10%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: #ffffff;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 240 4.9% 83.9%;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: var(--background);
+}
+.bordered-layout {
+  position: fixed;
+  top: var(--border-width);
+  left: var(--border-width);
+  right: var(--border-width);
+  bottom: var(--border-width);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.scroll-container {
+  flex-grow: 1;
+  overflow-y: auto; /* Enable vertical scrolling inside the bordered area */
+  outline: 2px solid var(--accent); /* Inner outline for content */
+  box-sizing: border-box;
+  padding-bottom: 16px; /* Prevent content from touching bottom border */
+}
+
+.header {
+  padding-top: var(--border-width); /* Align header with top margin */
+}
+.header-row {
+  display: flex;
+  width: 100%;
+}
+
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: 2px solid var(--accent);
+}
+
+/* Header Boxes */
+.header-box {
+  flex-grow: 1;
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid var(--accent); /* Box outline */
+  
+}
+
+/* Specific Box Styles */
+.logo-box {
+  width: 64px; /* Fixed width */
+  height: 64px; /* Fixed height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0px;
+  border-right: 2px solid var(--accent); /* Right border only */
+  box-sizing: border-box; /* Include padding and border in dimensions */
+  flex-shrink: 0; /* Prevent shrinking */
+  flex-grow: 0; /* Prevent growing */
+}
+
+
+/* Navigation and Works Boxes */
+.spacer-box {
+  flex-grow: 1; /* Take up remaining space */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border: 0px;
+  border-right: 2px solid var(--accent); /* Right border only */
+}
+
+.dashed-box {
+
+}
+
+
+/* Works Box */
+.works-box {
+  width: 448px; /* Fixed width for Works box */
+  display: flex;
+  border: 0px;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0; /* Prevent shrinking */
+  flex-grow: 0; /* Prevent growing */
+}
+
+
+.menu-box {
+  width: 128px; /* Fixed width */
+  height: 64px; /* Fixed height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border: 0px;
+  border-left: 2px solid var(--accent); /* Left border only */
+  box-sizing: border-box; /* Include padding and border in dimensions */
+  flex-shrink: 0; /* Prevent shrinking */
+  flex-grow: 0; /* Prevent growing */
+}
+.account-box {
+  width: 64px; /* Fixed width */
+  height: 64px; /* Fixed  height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border: 0px;
+  border-left: 2px solid var(--accent); /* Left border only */
+  box-sizing: border-box; /* Include padding and border in dimensions */
+  flex-shrink: 0; /* Prevent shrinking */
+  flex-grow: 0; /* Prevent growing */
+}
+
+.menu-line {
+  width: 50%;
+  height: 2px;
+  background-color: var(--accent);
+}
+
+/* ...existing code... */
+
+.nav-box span, .works-box span {
+  margin-right: 8px; /* Spacing between text items */
+}
+.logo-image {
+  width: 70%; /* Fit within the box */
+  height: auto; /* Maintain aspect ratio */
+}
+
+
+
+.bg {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  width: 200%;
+  height: 200vh;
+  background: transparent url('http://assets.iceable.com/img/noise-transparent.png') repeat 0 0;
+  background-repeat: repeat;
+  animation: bg-animation .2s infinite;
+  opacity: 0.9;
+  visibility: visible;
+  z-index: -1; /* Ensure it stays behind all content */
+}
+
+/* Keyframes for Animation */
+@keyframes bg-animation {
+    0% { transform: translate(0,0) }
+    10% { transform: translate(-5%,-5%) }
+    20% { transform: translate(-10%,5%) }
+    30% { transform: translate(5%,-10%) }
+    40% { transform: translate(-5%,15%) }
+    50% { transform: translate(-10%,5%) }
+    60% { transform: translate(15%,0) }
+    70% { transform: translate(0,10%) }
+    80% { transform: translate(-15%,0) }
+    90% { transform: translate(10%,5%) }
+    100% { transform: translate(5%,0) }
+}
+
+
+/* filepath: /Users/shaurya/Documents/GitHub/traide-web/src/app/globals.css */
+/* ...existing code... */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 448px 192px; /* Align with header boxes */
+  height: 384px; /* Fixed height */
+  box-sizing: border-box; /* Include padding and border in dimensions */
+}
+
+.grid-item {
+  background-color: var(--card);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  box-sizing: border-box; /* Include padding and border in dimensions */
+
+}
+
+.grid-item:nth-child(4n+1) { /* Leftmost items */
+  border-left: none;
+}
+.grid-item:nth-child(4n+2) { /* Leftmost items */
+  border-left: none;
+  border-right: none;
+}
+
+.grid-item:nth-child(-n+3) { /* Topmost items */
+  border-top: none;
+}
+
+.grid-item:nth-child(3n) { /* Rightmost items */
+  border-right: none;
+}
+
+.cross-dots {
+  background-image: radial-gradient(var(--accent) 1px, transparent 1px), radial-gradient(var(--accent) 1px, transparent 1px);
+  background-size: calc(6 * 1px) calc(6 * 1px);
+  background-position: 0 0, calc(3 * 5px) calc(3 * 5px)
+}
+
+.scrolling-text-container {
+  position: relative;
+  border-bottom: 2px solid var(--accent); /* Bottom border only */
+  height: 100%; /* Each takes half the container height */
+  width: 100%; /* Full width of the grid item */
+  overflow: hidden; /* Hide overflowing text */
+  display: flex;
+  align-items: top;
+}
+
+.scrolling-text {
+  display: flex;
+  white-space: nowrap; /* Prevent line breaks */
+  animation: scroll-left-loop 5s linear infinite; /* Infinite scrolling animation */
+  position: relative;
+}
+
+.scrolling-text span {
+  display: inline-block;
+  color: var(--accent);
+  font-size: 192px; /* Make text height equal to container height */
+  line-height: 1; /* Ensure no extra spacing around text */
+}
+
+/* Keyframes for seamless scrolling animation */
+@keyframes scroll-left-loop {
+  0% {
+    transform: translateX(0); /* Start at normal position */
+  }
+  50% {
+    transform: translateX(-50%); /* Move halfway */
+  }
+  100% {
+    transform: translateX(-110%); /* Scroll past one full width of the duplicated content */
   }
 }
+
+/* Duplicate content for seamless scrolling */
+.scrolling-text::before,
+.scrolling-text::after {
+  color: var(--accent);
+  content: attr(data-text); /* Duplicate the text content */
+  display: inline-block;
+  font-size: 192px; /* Ensure the same font size */
+  line-height: 1; /* Ensure no extra spacing around text */
+  position: absolute;
+  top: 0;
+  left: 110%; /* Position it right after the original text */
+  white-space: nowrap;
+}
+
+.bottom-border-box {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  width: 100%; /* Full width of the column */
+  height: 40px; /* Adjust height as needed */
+  border-bottom: 2px solid var(--accent); /* Bottom border only */
+  margin-bottom: 0; /* Remove margin to be directly on top of the text scroller */
+  font-size: 20px; /* Adjust font size as needed */
+  color: var(--accent); /* Text color */
+  padding-left: 12px;
+}
+
+.rank-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 64px; /* Full width of the column */
+  height: 40px; /* Adjust height as needed */
+  border-bottom: 2px solid var(--accent); /* Bottom border only */
+  margin-bottom: 0; /* Remove margin to be directly on top of the text scroller */
+  font-size: 20px; /* Adjust font size as needed */
+  color: var(--accent); /* Text color */
+}
+
+.database-box {
+  white-space: nowrap;
+  overflow: hidden; /* Hide overflowing text */
+  display: flex;
+  justify-content: left;
+  align-items: flex-end;
+  height: 384px; /* Adjust height as needed */
+  width: 100%; /* Full width of the column */
+  border-bottom: 2px solid var(--accent); /* Bottom border only */
+  border-right: 2px solid var(--accent); /* Bottom border only */
+  font-size: 156px; /* Adjust font size as needed */
+  line-height: 1; /* Ensure no extra spacing around text */
+  color: var(--accent); /* Text color */
+  padding-left: 12px;
+
+}
+
+.card-item {
+  background-color: var(--card);
+  border-bottom: 2px solid var(--accent); /* Bottom border for all cards */
+  box-sizing: border-box; /* Include padding and border in dimensions */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px; /* Adjust height as needed */
+}
+
+.card-item:nth-child(4n+2) {
+  border-right: none;
+}
+
+/* Keep right border for all other cards, including the last column */
+.card-item:not(:nth-child(4n+2)) {
+  border-right: 2px solid var(--accent);
+}
+
+.cards-container {
+  grid-column: span 3; /* Span all columns in the grid */
+}
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  grid-template-rows: auto repeat(10, 1fr); /* Add auto row for search box */
+}
+.card-search-container {
+  position: sticky;
+  top: 64px; /* Adjust based on header height */
+  grid-column: span 2; /* Make it span two columns */
+  height: 64px; /* Adjust height as needed */
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding-left: 12px;
+  font-size: 24px;
+  background-color: var(--background); /* Match card background */
+  border-bottom: 2px solid var(--accent); /* Bottom border only */
+  border-right: 2px solid var(--accent); /* Bottom border only */
+}
+
+
+.dashed-box-container {
+  background: repeating-linear-gradient(
+    -45deg, 
+    var(--accent) 0px, 
+    var(--accent) 4px, 
+    transparent 5px, 
+    transparent 10px
+  );
+  grid-column: span 2; /* Make it span two columns */
+  height: 64px; /* Adjust height as needed */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+}
+
+
 
 @layer base {
   * {
