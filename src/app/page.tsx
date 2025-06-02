@@ -1,17 +1,21 @@
 'use client'; // Add this at the very top if not already a client component, or move RotatedFrameWithTilt to its own client component file
 
 import { useRef, useEffect, useState } from 'react';
-import type { ReactNode, MouseEvent as ReactMouseEvent } from 'react'; // Import ReactNode and ReactMouseEvent for typing
+import type { ReactNode, MouseEvent as ReactMouseEvent, RefObject } from 'react'; // Import ReactNode and ReactMouseEvent for typing
 
 // Define the new Client Component for the interactive frame
-const RotatedFrameWithTilt = ({ children }: { children: ReactNode }) => { // Typed children
-  const cardRef = useRef<HTMLDivElement>(null); // Typed useRef
-  // We don't strictly need mouseHover state if using onMouseEnter/onMouseLeave directly for effect toggling
-  // but the original example uses it, so let's keep it for closer translation initially.
+const RotatedFrameWithTilt = ({ 
+  children, 
+  interactionContainerRef 
+}: { 
+  children: ReactNode; 
+  interactionContainerRef: RefObject<HTMLDivElement>;
+}) => {
+  const cardRef = useRef<HTMLDivElement>(null);
   const [mouseHover, setMouseHover] = useState(false);
 
-  const SCALE_X = 5;
-  const SCALE_Y = 9;
+  const SCALE_X = 4;
+  const SCALE_Y = 8;
   const INITIAL_Z_ROTATION = '1deg'; // New constant for initial rotation
 
   // Store the initial transform from Tailwind classes
@@ -19,7 +23,8 @@ const RotatedFrameWithTilt = ({ children }: { children: ReactNode }) => { // Typ
 
   useEffect(() => {
     const card = cardRef.current;
-    if (!card) return;
+    const container = interactionContainerRef.current;
+    if (!card || !container) return;
 
     // Capture the initial transform set by Tailwind classes
     // This ensures our JS transform combines with the static Tailwind transforms (like rotate-[3deg])
@@ -35,16 +40,16 @@ const RotatedFrameWithTilt = ({ children }: { children: ReactNode }) => { // Typ
       // So, the `rotate-[3deg]` will be part of the non-hovered state set by `handleMouseOut`.
     }
 
-    const handleMouseMove = (e: ReactMouseEvent<HTMLDivElement>) => {
-      if (!mouseHover || !card) return;
-      const rect = card.getBoundingClientRect();
+    const handleMouseMove = (e: MouseEvent) => { // Changed to global MouseEvent as it's on container
+      if (!mouseHover) return; // Check mouseHover state
+      const rect = container.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      const cardWidth = card.offsetWidth || 0;
-      const cardHeight = card.offsetHeight || 0;
+      const containerWidth = container.offsetWidth || 0;
+      const containerHeight = container.offsetHeight || 0;
 
-      const rotateXVal = (y / cardHeight) * -(SCALE_Y * 2) + SCALE_Y;
-      const rotateYVal = (x / cardWidth) * (SCALE_X * 2) - SCALE_X;
+      const rotateXVal = (y / containerHeight) * -(SCALE_Y * 2) + SCALE_Y;
+      const rotateYVal = (x / containerWidth) * (SCALE_X * 2) - SCALE_X;
       
       // The JS transform now includes the static base rotation and translation for centering.
       // The md:-translate-x-1/5 is a CSS class and will apply independently to the absolute positioning.
@@ -66,30 +71,32 @@ const RotatedFrameWithTilt = ({ children }: { children: ReactNode }) => { // Typ
       }
     };
 
-    card.addEventListener('mousemove', handleMouseMove as any);
-    card.addEventListener('mouseenter', handleMouseOver);
-    card.addEventListener('mouseleave', handleMouseOut);
+    // Attach listeners to the container
+    container.addEventListener('mousemove', handleMouseMove);
+    container.addEventListener('mouseenter', handleMouseOver);
+    container.addEventListener('mouseleave', handleMouseOut);
 
-    // Set initial state including the 3deg rotation if not hovered (e.g. on mount)
-    if (!mouseHover && card) {
+    // Initial state if not hovered (applies to card, based on container's hover state)
+    if (!mouseHover) {
        card.style.transform = `translate(-50%, -50%) rotate3d(0,0,1,${INITIAL_Z_ROTATION}) perspective(600px) rotateX(0deg) rotateY(0deg) translateZ(0px)`;
     }
 
     return () => {
-      card.removeEventListener('mousemove', handleMouseMove as any);
-      card.removeEventListener('mouseenter', handleMouseOver);
-      card.removeEventListener('mouseleave', handleMouseOut);
-      if (card) { // Check card exists before trying to reset style on unmount
-         // Reset to initial state when component unmounts or effect re-runs
+      // Remove listeners from the container
+      container.removeEventListener('mousemove', handleMouseMove);
+      container.removeEventListener('mouseenter', handleMouseOver);
+      container.removeEventListener('mouseleave', handleMouseOut);
+      // Reset card style on unmount or effect re-run, if card exists
+      if (card) {
          card.style.transform = `translate(-50%, -50%) rotate3d(0,0,1,${INITIAL_Z_ROTATION}) perspective(600px) rotateX(0deg) rotateY(0deg) translateZ(0px)`;
       }
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mouseHover]); // Dependency array simplified, initialTransform removed for now due to complexity
+  }, [mouseHover, interactionContainerRef]); // Added interactionContainerRef to deps
 
   return (
     <div
-      ref={cardRef}
+      ref={cardRef} // This ref is still for the card itself
       className="bg-gradient-to-br from-purple-300 via-pink-300 to-rose-300 aspect-[10/9] w-[40vw] shadow-xl p-1 md:p-2 flex flex-col absolute top-1/2 left-1/2 z-10 md:-translate-x-1/5 transition-transform duration-700 ease-out"
       style={{ transformStyle: 'preserve-3d' }}
     >
@@ -99,6 +106,8 @@ const RotatedFrameWithTilt = ({ children }: { children: ReactNode }) => { // Typ
 };
 
 export default async function Index() {
+  const interactionContainerRef = useRef<HTMLDivElement>(null); // Create ref for interaction area
+
   return (
     <div className="absolute inset-0 font-serif flex flex-col">
 
@@ -146,10 +155,16 @@ export default async function Index() {
         </div>
 
         {/* Right Column - spans 2 columns, overflow-hidden REMOVED to allow child to overflow */}
-        <div className="md:col-span-2 relative p-6 md:p-8 flex flex-col justify-between">
-          {/* Rotated Frame Area for Text */}
-          <div className="flex-grow flex items-center justify-center" style={{ perspective: '1000px', transformStyle: 'preserve-3d'}}>
-            <RotatedFrameWithTilt>
+        <div 
+          ref={interactionContainerRef} // Moved ref to this parent div
+          className="md:col-span-2 relative p-6 md:p-8 flex flex-col justify-between"
+        >
+          {/* Rotated Frame Area for Text - ref REMOVED from here */}
+          <div 
+            className="flex-grow flex items-center justify-center" 
+            style={{ perspective: '1000px', transformStyle: 'preserve-3d'}}
+          >
+            <RotatedFrameWithTilt interactionContainerRef={interactionContainerRef}> 
               <div className="w-full h-full flex-grow overflow-y-auto p-3 md:p-4 text-white text-sm leading-relaxed">
                 <p className="mt-2">
                   "Quote 1"
