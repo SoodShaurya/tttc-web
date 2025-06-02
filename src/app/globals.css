@@ -20,12 +20,14 @@
     --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border-color: #92a8d1; /* Light blue border */
+    --border-color: #92a8d1;
+    /* Light blue border */
     --radius: 0.3rem;
     --text-muted-color: #6b7280;
-    --content-bg-color: #f5f5f5; /* Content background */
+    --content-bg-color: #f5f5f5;
+    /* Content background */
     --border-width: 24px;
-    --font-size-header-small: clamp(10px, .7vw,12px);
+    --font-size-header-small: clamp(10px, .7vw, 12px);
     --border: 240 3.7% 15.9%;
   }
 }
@@ -52,7 +54,8 @@
   --ring: 240 4.9% 83.9%;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -130,13 +133,11 @@ html, body {
 }
 
 .dashed-box {
-  background: repeating-linear-gradient(
-    -45deg, 
-    var(--accent) 0px, 
-    var(--accent) 4px, 
-    transparent 5px, 
-    transparent 10px
-  );
+  background: repeating-linear-gradient(-45deg,
+      var(--accent) 0px,
+      var(--accent) 4px,
+      transparent 5px,
+      transparent 10px);
 }
 
 .works-box {
@@ -176,10 +177,10 @@ html, body {
   bottom: -50%;
   width: 200%;
   height: 200vh;
-  background: transparent url('http://assets.iceable.com/img/noise-transparent.png') repeat 0 0;
+  background: transparent url('/static_map.png') repeat 0 0;
   background-repeat: repeat;
   animation: bg-animation .2s infinite;
-  opacity: 0.9;
+  opacity: 0.50;
   visibility: visible;
   z-index: -1;
 }
@@ -191,15 +192,47 @@ html, body {
 }
 
 @keyframes bg-animation {
-    0% { transform: translate(0,0) }
-    10% { transform: translate(-5%,-5%) }
-    20% { transform: translate(-10%,5%) }
-    30% { transform: translate(5%,-10%) }
-    40% { transform: translate(-5%,15%) }
-    50% { transform: translate(-10%,5%) }
-    60% { transform: translate(15%,0) }
-    70% { transform: translate(0,10%) }
-    80% { transform: translate(-15%,0) }
-    90% { transform: translate(10%,5%) }
-    100% { transform: translate(5%,0) }
+  0% {
+    transform: translate(0, 0)
+  }
+
+  10% {
+    transform: translate(-5%, -5%)
+  }
+
+  20% {
+    transform: translate(-10%, 5%)
+  }
+
+  30% {
+    transform: translate(5%, -10%)
+  }
+
+  40% {
+    transform: translate(-5%, 15%)
+  }
+
+  50% {
+    transform: translate(-10%, 5%)
+  }
+
+  60% {
+    transform: translate(15%, 0)
+  }
+
+  70% {
+    transform: translate(0, 10%)
+  }
+
+  80% {
+    transform: translate(-15%, 0)
+  }
+
+  90% {
+    transform: translate(10%, 5%)
+  }
+
+  100% {
+    transform: translate(5%, 0)
+  }
 }
