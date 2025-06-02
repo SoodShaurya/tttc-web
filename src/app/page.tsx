@@ -1,7 +1,49 @@
 'use client' // Add this at the very top if not already a client component, or move RotatedFrameWithTilt to its own client component file
 
 import { useRef, useEffect, useState } from 'react'
-import type { ReactNode, RefObject } from 'react' // Removed ReactMouseEvent as it's not directly used in types here
+import type { ReactNode, RefObject } from 'react'
+
+// Audio management utilities
+let currentAudio: HTMLAudioElement | null = null
+
+const stopCurrentAudio = () => {
+  if (currentAudio) {
+    currentAudio.pause()
+    currentAudio.currentTime = 0
+    currentAudio = null
+  }
+}
+
+const playAudio = (audioFile: string) => {
+  stopCurrentAudio()
+  const audio = new Audio(audioFile)
+  currentAudio = audio
+  audio.play().catch((error) => console.error('Error playing audio:', error))
+}
+
+const getRandomAudioFile = (character: string): string | null => {
+  try {
+    // Remove any prefix from the key (e.g., "ted-lavender" -> "lavender")
+    const name = character.split('-').pop() || character
+    // Dynamically import one random audio file for the character
+    const audioFiles = {
+      lavender: [1, 2, 3, 4, 5, 6],
+      lemon: [1, 2, 3],
+      strunk: [1, 2, 3, 4],
+      kiowa: [1, 2, 3, 4],
+      bowker: [1, 2, 3, 4],
+    }
+
+    const files = audioFiles[name as keyof typeof audioFiles]
+    if (!files) return null
+
+    const randomIndex = Math.floor(Math.random() * files.length)
+    return `/voices/${name}/${files[randomIndex]}.wav`
+  } catch (error) {
+    console.error('Error getting audio file:', error)
+    return null
+  }
+}
 
 // Define the new Client Component for the interactive frame
 const RotatedFrameWithTilt = ({
@@ -196,6 +238,12 @@ export default function Index() {
       return // Already showing this item's content, do nothing
     }
 
+    // Play audio if it exists
+    const audioFile = getRandomAudioFile(itemKey)
+    if (audioFile) {
+      playAudio(audioFile)
+    }
+
     setIsCardContentVisible(false)
     setTimeout(() => {
       setCurrentCardContent(cardDetails)
@@ -212,6 +260,29 @@ export default function Index() {
       setMainContentVisible(true)
     }, 300) // Duration for consent screen to fade out
   }
+
+  // Effect to handle audio playback on character hover
+  useEffect(() => {
+    const handleMouseEnter = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      const itemKey = target
+        .closest('[data-item-key]')
+        ?.getAttribute('data-item-key')
+      if (itemKey) {
+        const audioFile = getRandomAudioFile(itemKey)
+        if (audioFile) {
+          playAudio(audioFile)
+        }
+      }
+    }
+
+    const container = interactionContainerRef.current
+    container?.addEventListener('mouseenter', handleMouseEnter)
+
+    return () => {
+      container?.removeEventListener('mouseenter', handleMouseEnter)
+    }
+  }, [interactionContainerRef])
 
   if (consentStep !== 'done') {
     return (
