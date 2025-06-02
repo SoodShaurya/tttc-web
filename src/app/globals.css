@@ -30,6 +30,12 @@
     --font-size-header-small: clamp(10px, .7vw, 12px);
     --border: 240 3.7% 15.9%;
   }
+
+  html,
+  body {
+    background-color: #f5f5dc;
+    min-height: 100vh;
+  }
 }
 
 .dark {

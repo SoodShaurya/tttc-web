@@ -148,7 +148,7 @@ const RotatedFrameWithTilt = ({
     >
       {/* This inner div now handles the fade transition for the content */}
       <div
-        className={`h-full w-full flex-grow overflow-y-auto p-3 text-sm leading-relaxed text-white transition-opacity duration-300 ease-in-out md:p-4 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+        className={`h-full w-full flex-grow overflow-y-auto whitespace-pre-wrap break-words p-3 text-lg leading-relaxed text-white transition-opacity duration-300 ease-in-out md:p-4 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
       >
         {children}
       </div>
@@ -158,9 +158,7 @@ const RotatedFrameWithTilt = ({
 
 const defaultCardContent = (
   <>
-    <p className="mt-2">Quote 1 - Default</p>
-    <p className="mt-2">Quote 2 - Default</p>
-    <p className="mt-2">Quote 3 - Default</p>
+    <p className="mt-2">The Things They Carried</p>
   </>
 )
 
@@ -179,7 +177,7 @@ const leftColumnItems = [
     name: 'Curt Lemon',
     key: 'curt-lemon',
     cardDetails:
-      '"Curt Lemon steps from the shade into bright sunlight, his face brown and shining, and then he soars into a tree. The bad stuff never stops happening: it lives in its own dimension, replaying itself over and over. But the war wasn\'t all that way" (O\'Brien 21)."He was playing catch with Rat Kiley, laughing, and then he was dead. The sunlight came around him and lifted him up and sucked him high into a tree full of moss and vines and white blossoms" (O\'Brien 49).',
+      '"Curt Lemon steps from the shade into bright sunlight, his face brown and shining, and then he soars into a tree. The bad stuff never stops happening: it lives in its own dimension, replaying itself over and over. But the war wasn\'t all that way" (O\'Brien 21).\n\n"He was playing catch with Rat Kiley, laughing, and then he was dead. The sunlight came around him and lifted him up and sucked him high into a tree full of moss and vines and white blossoms" (O\'Brien 49).',
     expandedText:
       'Curt Lemon lived in the moment. He laughed in the face of danger, but behind that mask of bravado, he was terrified. The war was constantly testing him, but he had to show he was brave. His death was sudden, unexpected, and left a mark on those who witnessed it. He was playing catch with Rat Kiley, laughing, and then he was dead. The sunlight came around him and lifted him up and sucked him high into a tree full of moss and vines and white blossoms.',
   },
@@ -188,7 +186,7 @@ const leftColumnItems = [
     name: 'Lee Strunk',
     key: 'lee-strunk',
     cardDetails:
-      '"Lee Strunk carried his slingshot; ammo, he claimed, would never be a problem" (O\'Brien 6). "Dave Jensen and Lee Strunk did not become instant buddies, but they did learn to trust each other. Over the next month they often teamed up on ambushes. They covered each other on patrol, shared a foxhole, took turns pulling guard at night. In late August they made a pact that if one of them should ever get totally rucked up—a wheelchair wound—the other guy would automatically find a way to end it" (O\'Brien 40)',
+      '"Lee Strunk carried his slingshot; ammo, he claimed, would never be a problem" (O\'Brien 6). \n\n"Dave Jensen and Lee Strunk did not become instant buddies, but they did learn to trust each other. Over the next month they often teamed up on ambushes. They covered each other on patrol, shared a foxhole, took turns pulling guard at night. In late August they made a pact that if one of them should ever get totally rucked up—a wheelchair wound—the other guy would automatically find a way to end it" (O\'Brien 40)',
     expandedText:
       'Strunk was a brave young soldier who, just as the others did, carried himself with bravado. After a dispute with Jensen over a jackknife, they quickly became friends. They made a pact to kill the other if they got injured in war. The war was brutal, and death would be better than the shame and difficulties that they would face if they were to return injured. However, when it came to it, Strunk wanted to live, as anyone would. He died on his way home.',
   },
@@ -197,7 +195,7 @@ const leftColumnItems = [
     name: 'Kiowa',
     key: 'kiowa',
     cardDetails:
-      '"Kiowa, a devout Baptist, carried an illustrated New Testament that had been presented to him by his father, who taught Sunday school in Oklahoma City, Oklahoma" (O\'Brien 2). "As a hedge against bad times, however, Kiowa also carried his grandmother\'s distrust of the white man, his grandfather\'s old hunting hatchet" (O\'Brien 2). "On ambush, or other night missions, they carried peculiar little odds and ends. Kiowa always took along his New Testament and a pair of moccasins for silence" (O\'Brien 6).',
+      '"Kiowa, a devout Baptist, carried an illustrated New Testament that had been presented to him by his father, who taught Sunday school in Oklahoma City, Oklahoma" (O\'Brien 2). \n\n"As a hedge against bad times, however, Kiowa also carried his grandmother\'s distrust of the white man, his grandfather\'s old hunting hatchet" (O\'Brien 2). \n\n"On ambush, or other night missions, they carried peculiar little odds and ends. Kiowa always took along his New Testament and a pair of moccasins for silence" (O\'Brien 6).',
     expandedText:
       "Kiowa was a man of faith, carrying his illustrated New Testament and a pair of moccasins for silence. He was a devout Baptist, but he also carried the weight of his family's history and distrust of the white. His death was sudden and tragic, drowning in the sewage of the Song Tra Bong River. The weight of his death was felt by all, especially Norman Bowker, who drove around a lake for years, haunted by the memory of Kiowa's death and his own inability to save him.",
   },
@@ -206,7 +204,7 @@ const leftColumnItems = [
     name: 'Norman Bowker',
     key: 'norman-bowker',
     cardDetails:
-      '"Norman Bowker carried a diary" (O\'Brien 2). "Norman Bowker, otherwise a very gentle person, carried a thumb that had been presented to him as a gift by Mitchell Sanders. The thumb was dark brown, rubbery to the touch, and weighed 4 ounces at most. It had been cut from a VC corpse, a boy of fifteen or sixteen" (O\'Brien 9).',
+      '"Norman Bowker carried a diary" (O\'Brien 2). \n\n"Norman Bowker, otherwise a very gentle person, carried a thumb that had been presented to him as a gift by Mitchell Sanders. The thumb was dark brown, rubbery to the touch, and weighed 4 ounces at most. It had been cut from a VC corpse, a boy of fifteen or sixteen" (O\'Brien 9).',
     expandedText:
       "Norman Bowker survived the war, but he was haunted by all the death and destruction he had witnessed. He carried a diary to try to make sense of it all, but it was never enough. The thumb he carried was a reminder of the violence and brutality of war, a symbol of the things he had done and seen. He drove around a lake for years, haunted by the memory of Kiowa's death and his own inability to save him. The weight of his experiences was too much to bear, and he eventually took his own life.",
   },
