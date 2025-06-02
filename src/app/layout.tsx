@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/react'
 import './globals.css'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import ReactQueryProvider from '@/providers/ReactQueryProvider'
+import ThemeToggle from '@/components/ThemeToggle'
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -12,8 +13,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'Next.js and Supabase Starter Kit',
-  description: 'The fastest way to build apps with Next.js and Supabase',
+  title: 'TTTC Final Project',
+  description: 'The Things They Carried',
 };
 
 
@@ -45,25 +46,22 @@ export default function RootLayout({
               {/* Scrollable inner container */}
               <div className="scroll-container">
                 <header className="sticky-header">
-                    <div className="header-row">
-                      <div className="header-box logo-box">
-                          <img src="/fixedlogo.png" alt="Logo" className="logo-image" />
-                            </div>
-                                <div className="header-box spacer-box dashed-box">
-                                </div>
-                            <div className="header-box works-box cross-dots">
-                          <span> </span>
-                          <span> </span>
+                    <div className="header-row grid md:grid-cols-5">
+                      {/* Left Group: Spans 3 columns - border removed, logo and cross-dot spacer added */}
+                      <div className="md:col-span-3 flex"> {/* Removed border-r-2 border-[#6e7b99] */}
+                        <div className="header-box logo-box"> {/* Fixed width defined in globals.css */}
+                            <img src="/fixedlogo.png" alt="Logo" className="logo-image" />
+                        </div>
+                        {/* Box with dot cross pattern, takes remaining width */}
+                        <div className="header-box spacer-box cross-dots h-24"> {/* Re-using spacer-box for flex-grow, ensuring height, added cross-dots */}
+                          {/* Content for this box can be added if needed, or it's just a pattern */}
+                        </div>
                       </div>
-                      <div className="header-box account-box">
-                          <div className="menu-line"></div>
-                          <div className="menu-line"></div>
-                          <div className="menu-line"></div>
-                      </div>
-                      <div className="header-box menu-box">
-                          <div className="menu-line"></div>
-                          <div className="menu-line"></div>
-                          <div className="menu-line"></div>
+                      {/* Right Group: Spans 2 columns - populated with dashed-box */}
+                      <div className="md:col-span-2 flex">
+                        <div className="dashed-box h-24 flex-1">
+                          {/* Content for dashed box if needed */}
+                        </div>
                       </div>
                     </div>
                   </header>
