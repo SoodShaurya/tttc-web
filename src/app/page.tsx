@@ -14,7 +14,8 @@ const stopCurrentAudio = () => {
   }
 }
 
-const playAudio = (audioFile: string) => {
+const playAudio = (audioFile: string, isAudioEnabled: boolean) => {
+  if (!isAudioEnabled) return // Don't play if audio is disabled
   stopCurrentAudio()
   const audio = new Audio(audioFile)
   currentAudio = audio
@@ -227,7 +228,7 @@ export default function Index() {
     'showing' | 'fadingOut' | 'done'
   >('showing')
   const [mainContentVisible, setMainContentVisible] = useState(false)
-  // const [audioEnabled, setAudioEnabled] = useState<boolean | null>(null); // Optional: to store actual choice
+  const [audioEnabled, setAudioEnabled] = useState(false) // Track audio enabled state
 
   const handleToggleItem = (key: string) => {
     setExpandedItemKey((prevKey) => (prevKey === key ? null : key))
@@ -238,10 +239,10 @@ export default function Index() {
       return // Already showing this item's content, do nothing
     }
 
-    // Play audio if it exists
+    // Play audio if it exists and audio is enabled
     const audioFile = getRandomAudioFile(itemKey)
     if (audioFile) {
-      playAudio(audioFile)
+      playAudio(audioFile, audioEnabled)
     }
 
     setIsCardContentVisible(false)
@@ -253,7 +254,7 @@ export default function Index() {
   }
 
   const handleAudioChoice = (choice: boolean) => {
-    // setAudioEnabled(choice); // Optional: store the choice
+    setAudioEnabled(choice) // Store the audio preference
     setConsentStep('fadingOut')
     setTimeout(() => {
       setConsentStep('done')
@@ -271,7 +272,7 @@ export default function Index() {
       if (itemKey) {
         const audioFile = getRandomAudioFile(itemKey)
         if (audioFile) {
-          playAudio(audioFile)
+          playAudio(audioFile, audioEnabled)
         }
       }
     }
@@ -282,7 +283,7 @@ export default function Index() {
     return () => {
       container?.removeEventListener('mouseenter', handleMouseEnter)
     }
-  }, [interactionContainerRef])
+  }, [interactionContainerRef, audioEnabled])
 
   if (consentStep !== 'done') {
     return (
