@@ -133,6 +133,11 @@ export default function Index() {
   const [isCardContentVisible, setIsCardContentVisible] = useState(true);
   const [hoveredItemKeyForCard, setHoveredItemKeyForCard] = useState<string | null>(null);
 
+  // State for audio consent flow
+  const [consentStep, setConsentStep] = useState<'showing' | 'fadingOut' | 'done'>('showing');
+  const [mainContentVisible, setMainContentVisible] = useState(false);
+  // const [audioEnabled, setAudioEnabled] = useState<boolean | null>(null); // Optional: to store actual choice
+
   const handleToggleItem = (key: string) => {
     setExpandedItemKey(prevKey => (prevKey === key ? null : key));
   };
@@ -150,10 +155,59 @@ export default function Index() {
     }, 300); // This duration should match the CSS transition duration (300ms)
   };
 
+  const handleAudioChoice = (choice: boolean) => {
+    // setAudioEnabled(choice); // Optional: store the choice
+    setConsentStep('fadingOut');
+    setTimeout(() => {
+      setConsentStep('done');
+      setMainContentVisible(true);
+    }, 300); // Duration for consent screen to fade out
+  };
+
+  if (consentStep !== 'done') {
+    return (
+      <div 
+        className={`fixed inset-0 bg-gray-900 flex flex-col items-center justify-center z-[2000] transition-opacity duration-300 ease-in-out ${consentStep === 'showing' ? 'opacity-100' : 'opacity-0'}`}
+      >
+        <div className="text-center">
+          <h2 className="font-serif font-extralight tracking-tight text-[#6e7b99] text-4xl mb-12">
+            Would you like to enable audio?
+          </h2>
+          <div className="flex space-x-12 justify-center">
+            {/* Speaker On Icon Button */}
+            <button 
+              onClick={() => handleAudioChoice(true)} 
+              className="text-[#6e7b99] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#6e7b99] rounded-full p-2 transition-colors duration-200"
+              aria-label="Enable Audio"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-16 h-16">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
+              </svg>
+            </button>
+            {/* Speaker Off Icon Button - Using user-provided speaker-x-mark SVG */}
+            <button 
+              onClick={() => handleAudioChoice(false)} 
+              className="text-[#6e7b99] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#6e7b99] rounded-full p-2 transition-colors duration-200"
+              aria-label="Disable Audio"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-16 h-16">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 9.75 19.5 12m0 0 2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6 4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="absolute inset-0 font-serif flex flex-col">
+    <div className={`absolute inset-0 font-serif flex flex-col transition-opacity duration-500 ease-in-out ${mainContentVisible ? 'opacity-100' : 'opacity-0'}`}>
+      {/* Header Spacer */}
       <div className="h-[96px] flex-shrink-0"></div>
+
+      {/* Main Grid Layout */}
       <div className="grid md:grid-cols-5 flex-grow min-h-0">
+        {/* Left Column */}
         <div className="md:col-span-3 flex flex-col min-h-0 border-r-2 border-[#6e7b99]">
           <div className="flex-grow overflow-y-auto">
             {leftColumnItems.map((item) => (
