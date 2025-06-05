@@ -289,14 +289,14 @@ export default function Index() {
         className={`fixed inset-0 z-[2000] flex flex-col items-center justify-center bg-gray-900 transition-opacity duration-300 ease-in-out ${consentStep === 'showing' ? 'opacity-100' : 'opacity-0'}`}
       >
         <div className="text-center">
-          <h2 className="mb-12 font-serif text-4xl font-extralight tracking-tight text-[#6e7b99]">
+          <h2 className="mb-12 font-serif text-4xl font-extralight tracking-tight text-[#FFFFFF]">
             Would you like to enable audio?
           </h2>
           <div className="flex justify-center space-x-12">
             {/* Speaker On Icon Button */}
             <button
               onClick={() => handleAudioChoice(true)}
-              className="rounded-full p-2 text-[#6e7b99] transition-colors duration-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-[#6e7b99]"
+              className="rounded-full p-2 text-[#FFFFFF] transition-colors duration-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-[#FFFFFF]"
               aria-label="Enable Audio"
             >
               <svg
@@ -317,7 +317,7 @@ export default function Index() {
             {/* Speaker Off Icon Button - Using user-provided speaker-x-mark SVG */}
             <button
               onClick={() => handleAudioChoice(false)}
-              className="rounded-full p-2 text-[#6e7b99] transition-colors duration-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-[#6e7b99]"
+              className="rounded-full p-2 text-[#FFFFFF] transition-colors duration-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-[#FFFFFF]"
               aria-label="Disable Audio"
             >
               <svg
@@ -351,10 +351,10 @@ export default function Index() {
       {/* Main Grid Layout */}
       <div className="grid min-h-0 flex-grow md:grid-cols-5">
         {/* Left Column */}
-        <div className="flex min-h-0 flex-col border-r-2 border-[#6e7b99] md:col-span-3">
+        <div className="flex min-h-0 flex-col border-r-2 border-[#FFFFFF] md:col-span-3">
           <div className="flex-grow overflow-y-auto">
             {leftColumnItems.map((item) => (
-              <div key={item.key} className="border-b-2 border-[#6e7b99]">
+              <div key={item.key} className="border-b-2 border-[#FFFFFF]">
                 <div
                   className="flex cursor-pointer items-baseline p-8 transition-colors duration-200 hover:bg-gray-100/10 md:p-12"
                   onClick={() => handleToggleItem(item.key)}
@@ -363,10 +363,10 @@ export default function Index() {
                   }
                   // No onMouseLeave for card content change anymore
                 >
-                  <h2 className="text-4xl font-extralight tracking-tight text-[#6e7b99] md:text-5xl">
+                  <h2 className="text-4xl font-extralight tracking-tight text-[#FFFFFF] md:text-5xl">
                     {item.name}
                   </h2>
-                  <span className="ml-auto flex flex-1 justify-end pt-1 text-right text-xs text-[#6e7b99]">
+                  <span className="ml-auto flex flex-1 justify-end pt-1 text-right text-xs text-[#FFFFFF]">
                     {item.year}
                   </span>
                 </div>
@@ -377,7 +377,7 @@ export default function Index() {
                   `}
                 >
                   <div className="bg-gray-500/10 p-6 md:p-8">
-                    <p className="text-[#6e7b99]">{item.expandedText}</p>
+                    <p className="text-[#FFFFFF]">{item.expandedText}</p>
                   </div>
                 </div>
               </div>
@@ -401,7 +401,7 @@ export default function Index() {
               {currentCardContent} {/* Dynamic content for the card */}
             </RotatedFrameWithTilt>
           </div>
-          <div className="mt-auto space-y-1 text-right text-xs text-[#6e7b99]">
+          <div className="mt-auto space-y-1 text-right text-xs text-[#FFFFFF]">
             <p>The Things</p>
             <p>They Carried</p>
           </div>
