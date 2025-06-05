@@ -170,6 +170,7 @@ body {
   opacity: 0.30;
   visibility: visible;
   z-index: 3000;
+  pointer-events: none;
 }
 
 .cross-dots {
